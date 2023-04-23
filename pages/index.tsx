@@ -1,4 +1,4 @@
-import { ConnectWallet, useAddress, useContract, useContractRead} from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useContract, useContractRead, Web3Button} from "@thirdweb-dev/react";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 
@@ -12,8 +12,39 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.card}>
-<h1>Voting Application</h1>
+<ConnectWallet />
+<h1>Voting DApplication</h1>
+<div>
+  {address ? (
+    <div>
+      {proposalLoading ? (
+        <div>
+    <p>Loading Proposal... </p>
+    </div>
+  ):(
+    <div>
+        <h2>{proposal[0]}</h2>
+        <div>
+          <Web3Button 
+          contractAddress={contractAddress}
+          action={(contract) => contract.call("vote", 0, true)}
+          >Yes</Web3Button>
+          <br/>
+          <Web3Button
+          contractAddress={contractAddress}
+          action={(contract) => contract.call("vote", 0, false)}
+          >No</Web3Button>
 
+        </div>
+    </div>
+  )}
+  </div>
+  ) : (
+    <div>
+      <p>Connect your wallet to get started</p>
+      </div>
+  )}
+          </div>
         </div>
       </main>
     </div>
